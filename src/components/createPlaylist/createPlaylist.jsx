@@ -6,7 +6,7 @@ import { createPlaylist } from "../../services/musicFetch"
 
 
 
-export default function MovieCreate() {
+export default function playlistCreate() {
     // Context
     const { user } = useContext(UserContext)
     // States
@@ -44,7 +44,7 @@ export default function MovieCreate() {
     }
 
     if (!user) {
-        return <Navigate to="/signIn" />
+        return <Navigate to="/login" />
     }
 
     // Form

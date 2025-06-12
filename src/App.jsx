@@ -8,9 +8,11 @@ import Login from './components/Login/Login'
 import ShowMusic from './components/showMusic/showMusic.jsx'
 import Playlist from './components/Playlist/Playlist.jsx'
 import ShowPlaylist from './components/showPlaylist/showPlaylist.jsx'
+import playlistCreate from './components/createPlaylist/createPlaylist.jsx'
 
 import { useContext } from 'react'
 import { UserContext } from './contexts/UserContext'
+import PlaylistCreate from './components/createPlaylist/createPlaylist.jsx'
 
 
 function App() {
@@ -25,6 +27,7 @@ function App() {
         <Route path='/music/:musicId' element ={< ShowMusic/>}/>
         <Route path='/playlist' element ={<Playlist />}/>
         <Route path='/playlist/:playlistId' element={<ShowPlaylist />}/>
+        <Route path='/playlist/create' element ={<PlaylistCreate />}/>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
       </Routes> 

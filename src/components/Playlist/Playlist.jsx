@@ -14,6 +14,7 @@ export default function Playlist(){
                 <Sidebar />
                 <section className="home-page-space">
                     <h1>playlists</h1>
+                    <Link to={`/playlist/create`}>➕</Link>
                 <section className="play-list">
                   {error
                     ? <p className='error-message'>{error}</p>
@@ -27,6 +28,7 @@ export default function Playlist(){
                                 </article>
                             </Link>
                         ))
+                        
                         : <p>No activities found</p>
                     }
                 </section>
