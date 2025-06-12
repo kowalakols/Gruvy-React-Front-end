@@ -6,6 +6,8 @@ import { useContext, useState } from 'react'
 import Playlist from '../Playlist/Playlist'
 import Sidebar from "../nav/sidebar"
 import './showplaylist.css'
+import { deletePlaylist } from '../../services/musicFetch'
+
 
 export default function ShowPlaylist() {
     const { playlistId } = useParams();
@@ -17,6 +19,15 @@ export default function ShowPlaylist() {
         {},
         playlistId
     );
+    async function handleDelete() {
+        try {
+            await deletePlaylist(playlistId)
+            navigate('/playlist')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    
 
     return (
         <>
@@ -34,6 +45,10 @@ export default function ShowPlaylist() {
                             <section className='singleplaylist'>
                                 <section className='song-top'>
                                     <h1>{playlist.playlist_name}</h1>
+                                    {user && (
+                                        <button onClick={() => handleDelete(playlist.id)}>🗑️</button>
+                                    )}
+                                    
                                 </section>
                                 <section className='song-detail'>
                                     {playlist.songs.map(song => (

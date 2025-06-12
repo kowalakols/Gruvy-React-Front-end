@@ -25,7 +25,7 @@ border-radius: 10px;
     border: 1px solid;
     border-radius: 50px;
     text-decoration: solid;
-    margin-left: 1500px;
+    margin-left: 100px;
     background-color: white;
 
 }
@@ -35,10 +35,16 @@ border-radius: 10px;
     border-radius: 100px;
 }
 .song-detail{
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
     margin-top: 10px;
     border: 1px solid;
     font-size: xx-large;
     border-radius: 10px;
+}
+.song-detail h1 {
+    margin: 10px;
 }
 .lyrics{
     margin-top: 10px;

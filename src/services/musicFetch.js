@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getToken } from '../utilities/auth'
+import { data } from "react-router";
 
 console.log(import.meta.env.VITE_API_BASE_URL)
 const BASE_URL = import.meta.env.VITE_API_BASE_URL
@@ -49,11 +50,13 @@ export const getSinglePlaylist = async(playlistId) => {
 
 export const createPlaylist = async (formData) => {
   try {
-    return axios.post(`${BASE_URL}/playlist`, formData, {
+    return axios.post(`${BASE_URL}/playlist/`, formData, {
       headers:{
         Authorization: `Bearer ${getToken()}`
       }
     })
+    // .then(res => console.log(res))
+    // .catch(err => console.log(err));
   } 
   catch (error) {
     console.log(error)
@@ -74,9 +77,10 @@ export const updatePlaylist = async (musicId, formData) => {
   }
 }
 
-export const deletePlaylist = async (musicId) => {
+export const deletePlaylist = async (playlistId) => {
   try {
-    return axios.delete(`${BASE_URL}/playlist/${musicId}`, {
+    console.log('hit delete route')
+    return axios.delete(`${BASE_URL}/playlist/${playlistId}/`, {
       headers: {
         Authorization: `Bearer ${getToken()}`
       }
@@ -84,5 +88,39 @@ export const deletePlaylist = async (musicId) => {
   } catch (error) {
     console.log(error)
     throw error
+  }
+}
+
+export async function getUserPlaylists() {
+  try {
+    const response = await axios.get(`${BASE_URL}/playlist/`, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Failed to fetch playlists:", error);
+    throw error;
+  }
+}
+
+export async function addSongToPlaylist(playlistId, songId) {
+  try {
+    const response = await axios.put(
+      `${BASE_URL}/playlist/${playlistId}/`,
+      { song_id: songId },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${getToken()}`
+        }
+      }
+    );
+    return response.data;
+    console.log(response.data)
+  } catch (error) {
+    console.error("Failed to add song:", error);
+    throw error;
   }
 }

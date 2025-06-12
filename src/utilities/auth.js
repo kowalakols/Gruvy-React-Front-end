@@ -1,8 +1,8 @@
 const tokenName = 'groovy-token'
 
 export const setToken = (token) => {
-    localStorage.setItem(tokenName, token)
-    console.log(token)
+    localStorage.setItem('groovy-token', token)
+    console.log('token set:, token')
 }
 
 export const getToken = () => {
@@ -14,25 +14,30 @@ export const removeToken = () => {
 }
 
 export const getUserFromToken = () => {
-    // Get token from locall storage
-    const token = getToken()
-    // Check if the token was defined, if not, return null
-    if (!token) return null
-    // If the user exists, we need to split(.) the token and get the
-    // second string, this represents the user object
-    const payload = token.split('.')[1]
-    // Decode the data to get the user object
-    const payloadAsObject = JSON.parse(atob(payload))
-    // Check that the expiry date is valid
-    const timeNow = Date.now() / 1000
-    const expTime = payloadAsObject.exp
-    // 6. If the token is expired - the expiry time(in seconds) is smaller than 
-    // the time right now(in millseconds), remove it from storage, return null
-    if (expTime < timeNow) {
-        removeToken()
-        console.log('Token removed')
-        return null
+  try {
+    const token = getToken();
+    if (!token) return null;
+
+    const base64Url = token.split('.')[1];
+    if (!base64Url) return null;
+
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const padded = base64 + '='.repeat((4 - base64.length % 4) % 4);
+
+    const payloadAsObject = JSON.parse(atob(padded));
+
+    const timeNow = Date.now() / 1000;
+    if (payloadAsObject.exp < timeNow) {
+      removeToken();
+      console.log('Token expired, removed');
+      return null;
     }
-    // If the token is not expired, return user object
-    return payloadAsObject.user
-}
+
+    // If no .user key, return whole payload
+    return payloadAsObject.user || payloadAsObject;
+  } catch (error) {
+    console.error('Invalid token format:', error);
+    removeToken();
+    return null;
+  }
+};

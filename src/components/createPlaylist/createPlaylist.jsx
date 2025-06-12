@@ -31,13 +31,15 @@ export default function playlistCreate() {
 
     async function handleSubmit(event) {
         event.preventDefault()
-        const formattedFormData = { ...formData, tags: formData.tags.map(tag => tag.value) }
         setIsLoading(true)
         try {
-            const { data } = await createPlaylist(formattedFormData)
-            navigate(`/playlist/${playlist._id}`)
+            console.log(formData)
+            const { data } = await createPlaylist(formData)
+            navigate(`${BASE_URL}/playlist/${playlistId}`)
         } catch (error) {
-            setError(error.response.data)
+             console.error(error);
+            const msg = error.response?.data?.message || "Failed to create playlist.";
+            setError(msg);
         } finally {
             setIsLoading(false)
         }
@@ -59,14 +61,14 @@ export default function playlistCreate() {
                         <label htmlFor="playlist_name">playlist name: </label>
                         <input
                             type="text"
-                            name="plalist"
-                            id="playlist"
-                            placeholder="playlist"
+                            name="playlist_name"
+                            id="playlist_name"
+                            placeholder="enter playlist name"
                             onChange={handleInputChange}
                             value={formData.title}
                             required
                         />
-                        {error.title && <p className="error-message">{error.title}</p>}
+                        {error && <p className="error-message">{error}</p>}
                     </div>
                      {/* Submit */}
                 <button className="playlist-submit-button" type="submit">

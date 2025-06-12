@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom'
 import useFetch from '../../hooks/useFetch'
 import Sidebar from "../nav/sidebar"
-
 import { getAllPlaylist } from '../../services/musicFetch'
+
 
 export default function Playlist(){
     const { data: playlists, isLoading, error } = useFetch(getAllPlaylist, [])
     console.log('playlists:', playlists)
-
+    
     return (
         <>
             <section className="home-body">
@@ -22,11 +22,11 @@ export default function Playlist(){
                         ? <p>Loading...</p>
                         : playlists.length > 0
                         ? playlists.map(playlist => (
-                            <Link key={playlist.id} to={`/playlist/${playlist.id}`}>
-                                <article className='single-playlist'>                               
+                            <article className='single-playlist'>  
+                                <Link key={playlist.id} to={`/playlist/${playlist.id}`}>                    
                                     <h2>{playlist.playlist_name}</h2>
-                                </article>
-                            </Link>
+                                </Link>
+                          </article> 
                         ))
                         
                         : <p>No activities found</p>

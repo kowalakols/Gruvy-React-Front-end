@@ -11,7 +11,7 @@ export default function Login(){
 
   // * State
   const [formData, setFormData] = useState({
-    email: '',
+    username: '',
     password: ''
   })
   const [error, setError] = useState({})
@@ -33,14 +33,19 @@ export default function Login(){
     try {
       // Make API call
       const { data } = await login(formData)
+
+      if (!data || !data.access) {
+        throw new Error("Invalid login response")
+      }
       // Set the token from the response to storage
-      setToken(data.token)
+      setToken(data.access)
       // Set the user object inside the token to the user context state
       setUser(getUserFromToken())
+      console.log('Logged in user:', getUserFromToken())
       // Finally, navigate to the next page
       navigate('/music')
     } catch (error) {
-      setError(error.response.data)
+      setError(error.data || { message: error.message })
     } finally {
       setIsLoading(false)
     }
@@ -57,8 +62,8 @@ export default function Login(){
 
         {/* Email */}
         <div className="input-control">
-          <label htmlFor="email">Email</label>
-          <input type="email" name="email" id="email" placeholder="Email" required onChange={handleChange} value={formData.email} />
+          <label htmlFor="username">username</label>
+          <input type="username" name="username" id="username" placeholder="username" required onChange={handleChange} value={formData.username} />
         </div>
 
         {/* Password */}
