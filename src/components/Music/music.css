@@ -1,0 +1,15 @@
+.music-img {
+    width: 200px;
+    height: 200px;
+    border: 1px solid;
+}
+.song_cover_img {
+    width: 200px;
+    height: 200px;
+}
+.music-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+}

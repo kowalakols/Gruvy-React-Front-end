@@ -1,0 +1,10 @@
+.playlist-single-song{
+    height: 500px;
+    width: 500px;
+    border: 1px solid;
+    margin: 10px;
+    gap:100px;
+}
+.song-detail{
+    display: flex;
+}

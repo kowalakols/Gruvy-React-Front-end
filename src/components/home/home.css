@@ -1,0 +1,16 @@
+.home-body {
+    display: flex;
+    height: 100vh;
+    gap: 10px;
+}
+.sidebar-home {
+
+}
+
+.home-page-space{
+  flex: 1;
+  border: 1px solid white;
+  border-radius: 5%;
+  padding: 1rem;
+
+}

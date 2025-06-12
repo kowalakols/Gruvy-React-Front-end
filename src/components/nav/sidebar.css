@@ -1,0 +1,31 @@
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    background-color: #121212;
+    height: 100%;
+    width: 400px;
+    border: 1px solid;
+    border-radius: 5%;
+    padding-top: 10px;
+}
+.side-bar {
+    border-radius: 30px;
+
+}
+.navlink {
+    display: flex;
+    background-color: #212121;
+    justify-self: center;
+    justify-items: center;
+    align-items: center;
+    height: 100px;
+    width: 95%;
+    margin: 15px 0;
+    border: 1px solid;
+    border-radius: 15px;
+    font-size: 50px;
+    text-align: center;
+}
+.navlink:hover {
+
+}

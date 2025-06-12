@@ -1,0 +1,52 @@
+.song-top{
+display: flex;
+border: 1px solid;
+font-size: large;
+flex-wrap: wrap;
+border-radius: 10px;
+}
+.song-top h1, .song-top h3{
+    font-size: xx-large;
+    margin: 15px 0 15px 15px;
+   
+
+}
+.song-top img{
+    width: 225px;
+    height: 225px;
+}
+.linkToSong {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    font-size: 40px;
+    height: 70px;
+    width: 275px;
+    border: 1px solid;
+    border-radius: 50px;
+    text-decoration: solid;
+    margin-left: 1500px;
+    background-color: white;
+
+}
+.linkToSong a{
+    background-color: white;
+    color: #000;
+    border-radius: 100px;
+}
+.song-detail{
+    margin-top: 10px;
+    border: 1px solid;
+    font-size: xx-large;
+    border-radius: 10px;
+}
+.lyrics{
+    margin-top: 10px;
+    font-size: larger;
+    border: 1px solid;
+    border-radius: 10px;
+}
+.lyrics h1{
+    font-size: xxx-large;
+    margin: 10px;
+}
