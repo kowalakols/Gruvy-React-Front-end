@@ -11,7 +11,7 @@ export const getAllMusic = async () => {
       return response
     }
     catch (error) {
-      console.log(error)
+      console.log(error.response?.data || error.message)
       throw error
     }
 }
@@ -22,7 +22,7 @@ export const getSingleMusic = async (musicId) => {
     return response
   }
   catch (error) {
-    console.log(error)
+    console.log(error.response?.data || error.message)
     throw error
   }
 }
@@ -52,7 +52,7 @@ export const getSinglePlaylist = async(playlistId) => {
     })
     return response
   } catch (error) {
-    console.log(error)
+    console.log(error.response?.data || error.message)
     throw error
   }
 }
@@ -70,7 +70,7 @@ export const createPlaylist = async (formData) => {
     // .catch(err => console.log(err));
   } 
   catch (error) {
-    console.log(error)
+    console.log(error.response?.data || error.message)
     throw error
   }
 }
@@ -84,7 +84,7 @@ export const updatePlaylist = async (musicId, formData) => {
       }
     })
   } catch (error) {
-    console.log(error)
+    console.log(error.response?.data || error.message)
     throw error
   }
 }
@@ -99,7 +99,7 @@ export const deletePlaylist = async (playlistId) => {
       }
     })
   } catch (error) {
-    console.log(error)
+    console.log(error.response?.data || error.message)
     throw error
   }
 }
@@ -114,7 +114,7 @@ export async function getUserPlaylists() {
     });
     return response.data;
   } catch (error) {
-    console.error("Failed to fetch playlists:", error);
+    console.error("Failed to fetch playlists:", error.response?.data || error.message);
     throw error;
   }
 }
@@ -123,41 +123,54 @@ export async function addSongToPlaylist(playlistId, songId) {
   try {
     const token = getToken();
 
-    // Step 1: Fetch playlist
-    const playlistRes = await axios.get(`${BASE_URL}/playlist/${playlistId}/`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-
-    // ✅ Step 2: Force extraction of IDs only
-    const existingSongs = playlistRes.data.songs.map(song => {
-      // If already a number, return as is
-      if (typeof song === 'number') return song;
-      // If an object, return its `id`
-      if (typeof song === 'object' && song !== null && song.id) return song.id;
-      return null; // fallback to skip bad entries
-    }).filter(id => id !== null); // remove any nulls
-
-    // ✅ Step 3: Add new song, avoid duplicates
-    const updatedSongs = Array.from(new Set([...existingSongs, songId]));
-
-    // ✅ Step 4: Send PATCH with list of IDs only
     const response = await axios.patch(
       `${BASE_URL}/playlist/${playlistId}/`,
-      { songs: updatedSongs },
+      { song_id: songId },
       {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
       }
     );
-    console.log("Sending songs list:", updatedSongs);
 
     return response.data;
-
   } catch (error) {
-    console.error("Failed to add song:", error.response?.data || error.message);
+    console.error("❌ Failed to add song:", error.response?.data || error.message);
     throw error;
+  }
+}
+
+export async function removeSong(playlistId, songId) {
+  try {
+    const token = getToken()
+
+    // Fetch the current playlist
+    const res = await axios.get(`${BASE_URL}/playlist/${playlistId}/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+
+    const playlist = res.data
+
+    // Send updated data to backend
+    const response = await axios.put(
+      `${BASE_URL}/playlist/${playlistId}/`,
+      {
+        playlist_name: playlist.playlist_name,
+        remove_song_id: songId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+
+    return response.data
+  } catch (error) {
+    console.error("❌ Failed to remove song:", error.response?.data || error.message)
+    throw error
   }
 }

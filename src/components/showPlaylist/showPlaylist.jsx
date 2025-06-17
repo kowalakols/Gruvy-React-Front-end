@@ -7,6 +7,7 @@ import Playlist from '../Playlist/Playlist'
 import Sidebar from "../nav/sidebar"
 import './showplaylist.css'
 import { deletePlaylist } from '../../services/musicFetch'
+import { removeSong } from '../../services/musicFetch'
 import { useNavigate } from 'react-router-dom';
 
 
@@ -29,7 +30,14 @@ export default function ShowPlaylist() {
             console.log(error)
         }
     }
-    
+    const handleRemove = async (songId) => {
+        try {
+            await removeSong(playlistId, songId)
+            await refetch() // ✅ this comes from useFetch
+        } catch (err) {
+            console.error("❌ Failed to remove song:", err)
+        }
+    }
 
     return (
         <>
@@ -55,14 +63,22 @@ export default function ShowPlaylist() {
                                 <section className='song-detail'>
                                     {console.log("Playlist songs:", playlist.songs)}
                                     {Array.isArray(playlist.songs) && playlist.songs.map(song => (
-                                        <Link key={song.id} to={`/music/${song.id}`}>
+                                        
                                         <article className='playlist-single-song'>
+                                          <Link key={song.id} to={`/music/${song.id}`}>
                                             <div className='music-img'>
                                                 <img className='song_cover_img' src={song.cover_img} alt={song.song_name}></img>
                                             </div>
                                             <h2>{song.song_name}</h2>
+                                          </Link>   
+                                            <button 
+                                                onClick={() => handleRemove(song.id)} 
+                                                className='remove-btn'
+                                            >
+                                                Remove
+                                            </button>
                                         </article>
-                                        </Link>
+                                        
                                     ))}
                                 </section>
                             </section>
