@@ -6,10 +6,12 @@ import { useContext, useState, useEffect } from 'react'
 import Music from '../Music/Music'
 import './showMusic.css'
 import Sidebar from "../nav/sidebar"
+import { useNavigate} from 'react-router-dom'
 
 export default function ShowMusic() {
     const { musicId } = useParams();
     console.log(musicId);
+    const navigate = useNavigate()
     const { user } =useContext(UserContext);
     // const response = music;
     const {data: music, isLoading, error } = useFetch(
@@ -27,8 +29,8 @@ export default function ShowMusic() {
             try {
                 const result = await getUserPlaylists();  // You must define this function
                 setPlaylists(result);
-            } catch (err) {
-                console.error("Error fetching playlists:", err);
+            } catch (error) {
+                console.error("Error fetching playlists:", error.response?.data || error);
             }
         }
         fetchPlaylists();
@@ -37,9 +39,11 @@ export default function ShowMusic() {
     async function handleAddToPlaylist() {
         try {
             await addSongToPlaylist(selectedPlaylist, musicId);
+             navigate(`/playlist/${selectedPlaylist}`);
             setSuccessMsg("Song added to playlist!");
-        } catch (err) {
-            console.error("Failed to add song:", err);
+        } catch (error) {
+            console.log(error.response?.data || error)
+            console.error("Failed to add song:", error.response?.data || error);
             setSuccessMsg("Failed to add song.");
         }
     } 
@@ -60,7 +64,7 @@ export default function ShowMusic() {
         <>
             <section className="music-list">
                 {error
-                ? <p className='error-message'>{error}</p>
+                ? <p className='error-message'>{error.response?.data || error}</p>
                 : isLoading
                     ? <p>Loading...</p>
                     : music

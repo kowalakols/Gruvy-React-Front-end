@@ -7,7 +7,7 @@ export const register = async (formData) => {
     const response = await axios.post(`${BASE_URL}/sign-up/`, formData)
     return response
   } catch (error) {
-    console.log(error)
+    console.log('❌ Error:', error.response?.data)
     throw error
   }
 }

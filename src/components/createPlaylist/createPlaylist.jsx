@@ -13,6 +13,7 @@ export default function playlistCreate() {
     const [formData, setFormData] = useState({
         playlist_name: '',
         songs: [],
+        owner: user
     })
 
     const [error, setError] = useState('')
@@ -35,7 +36,7 @@ export default function playlistCreate() {
         try {
             console.log(formData)
             const { data } = await createPlaylist(formData)
-            navigate(`${BASE_URL}/playlist/${playlistId}`)
+            navigate(`/playlist`)
         } catch (error) {
              console.error(error);
             const msg = error.response?.data?.message || "Failed to create playlist.";

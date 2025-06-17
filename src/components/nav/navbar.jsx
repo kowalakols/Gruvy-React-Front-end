@@ -1,7 +1,7 @@
 import { NavLink } from "react-router"
 import { useContext } from "react"
 import { UserContext } from "../../contexts/UserContext"
-// import { removeToken } from "../../utils/auth"
+ import { removeToken } from "../../utilities/auth"
 import './navbar.css'
 
 export default function Navbar(){

@@ -11,7 +11,7 @@ export default function Register(){
         email: '',
         username: '',
         password: '',
-        passwordConfirmation: ''
+        password_confirmation: '',
     })
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState({})
@@ -71,9 +71,9 @@ export default function Register(){
   
           {/* Password Confirmation */}
           <div className="input-control">
-            <label htmlFor="passwordConfirmation">Password Confirmation</label>
-            <input type="password" name="passwordConfirmation" id="passwordConfirmation" placeholder="Password Confirmation" required onChange={handleChange} value={formData.passwordConfirmation} />
-            { error.passwordConfirmation && <p className="error-message">{error.passwordConfirmation}</p>}
+            <label htmlFor="password_Confirmation">Password Confirmation</label>
+            <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Password Confirmation" required onChange={handleChange} value={formData.password_confirmation} />
+            { error.password_confirmation && <p className="error-message">{error.password_confirmation}</p>}
           </div>
   
           <button type="submit" className="signup-submit-button">

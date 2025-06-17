@@ -7,6 +7,7 @@ import Playlist from '../Playlist/Playlist'
 import Sidebar from "../nav/sidebar"
 import './showplaylist.css'
 import { deletePlaylist } from '../../services/musicFetch'
+import { useNavigate } from 'react-router-dom';
 
 
 export default function ShowPlaylist() {
@@ -14,11 +15,12 @@ export default function ShowPlaylist() {
     console.log(playlistId);
     const { user } =useContext(UserContext);
     // const response = music;
-    const {data: playlist, isLoading, error } = useFetch(
+    const {data: playlist, isLoading, error, refetch } = useFetch(
         getSinglePlaylist, 
         {},
         playlistId
     );
+    const navigate = useNavigate();
     async function handleDelete() {
         try {
             await deletePlaylist(playlistId)
@@ -51,7 +53,8 @@ export default function ShowPlaylist() {
                                     
                                 </section>
                                 <section className='song-detail'>
-                                    {playlist.songs.map(song => (
+                                    {console.log("Playlist songs:", playlist.songs)}
+                                    {Array.isArray(playlist.songs) && playlist.songs.map(song => (
                                         <Link key={song.id} to={`/music/${song.id}`}>
                                         <article className='playlist-single-song'>
                                             <div className='music-img'>

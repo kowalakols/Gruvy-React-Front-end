@@ -29,7 +29,12 @@ export const getSingleMusic = async (musicId) => {
 
 export const getAllPlaylist = async() => {
   try{
-    const response = await axios.get(`${BASE_URL}/playlist`)
+    const token = getToken()
+    const response = await axios.get(`${BASE_URL}/playlist/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
     return response
   }
   catch(error){
@@ -39,7 +44,12 @@ export const getAllPlaylist = async() => {
 }
 export const getSinglePlaylist = async(playlistId) => {
   try {
-    const response = await axios.get(`${BASE_URL}/playlist/${playlistId}`)
+    const token = getToken()
+    const response = await axios.get(`${BASE_URL}/playlist/${playlistId}`,{
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
     return response
   } catch (error) {
     console.log(error)
@@ -50,9 +60,10 @@ export const getSinglePlaylist = async(playlistId) => {
 
 export const createPlaylist = async (formData) => {
   try {
+    const token = getToken()
     return axios.post(`${BASE_URL}/playlist/`, formData, {
       headers:{
-        Authorization: `Bearer ${getToken()}`
+        Authorization: `Bearer ${token}`
       }
     })
     // .then(res => console.log(res))
@@ -66,9 +77,10 @@ export const createPlaylist = async (formData) => {
 
 export const updatePlaylist = async (musicId, formData) => {
   try {
+    const token = getToken()
     return axios.put(`${BASE_URL}/playlist/${musicId}`, formData, {
       headers: {
-        Authorization: `Bearer ${getToken()}`
+        Authorization: `Bearer ${token}`
       }
     })
   } catch (error) {
@@ -79,10 +91,11 @@ export const updatePlaylist = async (musicId, formData) => {
 
 export const deletePlaylist = async (playlistId) => {
   try {
+    const token = getToken()
     console.log('hit delete route')
     return axios.delete(`${BASE_URL}/playlist/${playlistId}/`, {
       headers: {
-        Authorization: `Bearer ${getToken()}`
+        Authorization: `Bearer ${token}`
       }
     })
   } catch (error) {
@@ -93,9 +106,10 @@ export const deletePlaylist = async (playlistId) => {
 
 export async function getUserPlaylists() {
   try {
+    const token = getToken()
     const response = await axios.get(`${BASE_URL}/playlist/`, {
       headers: {
-        Authorization: `Bearer ${getToken()}`
+        Authorization: `Bearer ${token}`
       }
     });
     return response.data;
@@ -107,20 +121,43 @@ export async function getUserPlaylists() {
 
 export async function addSongToPlaylist(playlistId, songId) {
   try {
-    const response = await axios.put(
+    const token = getToken();
+
+    // Step 1: Fetch playlist
+    const playlistRes = await axios.get(`${BASE_URL}/playlist/${playlistId}/`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    // ✅ Step 2: Force extraction of IDs only
+    const existingSongs = playlistRes.data.songs.map(song => {
+      // If already a number, return as is
+      if (typeof song === 'number') return song;
+      // If an object, return its `id`
+      if (typeof song === 'object' && song !== null && song.id) return song.id;
+      return null; // fallback to skip bad entries
+    }).filter(id => id !== null); // remove any nulls
+
+    // ✅ Step 3: Add new song, avoid duplicates
+    const updatedSongs = Array.from(new Set([...existingSongs, songId]));
+
+    // ✅ Step 4: Send PATCH with list of IDs only
+    const response = await axios.patch(
       `${BASE_URL}/playlist/${playlistId}/`,
-      { song_id: songId },
+      { songs: updatedSongs },
       {
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${getToken()}`
+          Authorization: `Bearer ${token}`
         }
       }
     );
+    console.log("Sending songs list:", updatedSongs);
+
     return response.data;
-    console.log(response.data)
+
   } catch (error) {
-    console.error("Failed to add song:", error);
+    console.error("Failed to add song:", error.response?.data || error.message);
     throw error;
   }
 }

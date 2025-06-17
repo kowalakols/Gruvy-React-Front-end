@@ -2,7 +2,6 @@ const tokenName = 'groovy-token'
 
 export const setToken = (token) => {
     localStorage.setItem('groovy-token', token)
-    console.log('token set:, token')
 }
 
 export const getToken = () => {
