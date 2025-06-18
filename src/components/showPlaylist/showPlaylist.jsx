@@ -41,7 +41,7 @@ export default function ShowPlaylist() {
 
     return (
         <>
-            <section className="music-list">
+            <section className="playlist">
                 {error
                 ? <p className='error-message'>{error}</p>
                 : isLoading
@@ -64,18 +64,19 @@ export default function ShowPlaylist() {
                                     {console.log("Playlist songs:", playlist.songs)}
                                     {Array.isArray(playlist.songs) && playlist.songs.map(song => (
                                         
-                                        <article className='playlist-single-song'>
+                                        <article key={song.id} className='playlist-single-song'>
                                           <Link key={song.id} to={`/music/${song.id}`}>
                                             <div className='music-img'>
                                                 <img className='song_cover_img' src={song.cover_img} alt={song.song_name}></img>
                                             </div>
                                             <h2>{song.song_name}</h2>
+                                            <h3>{song.artist}</h3>
                                           </Link>   
                                             <button 
                                                 onClick={() => handleRemove(song.id)} 
                                                 className='remove-btn'
                                             >
-                                                Remove
+                                                ➖
                                             </button>
                                         </article>
                                         

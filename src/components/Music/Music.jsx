@@ -10,7 +10,7 @@ export default function Music(){
 
     return (
         <>
-             <h1>music</h1>
+             <h1>MUSIC</h1>
                 <section className="music-list">
                   {error
                     ? <p className='error-message'>{error}</p>
@@ -24,6 +24,7 @@ export default function Music(){
                                     <img className='song_cover_img' src={music.cover_img} alt={music.song_name}></img>
                                 </div>
                                 <h2>{music.song_name}</h2>
+                                <h3>{music.artist}</h3>
                             </article>
                             </Link>
                         ))

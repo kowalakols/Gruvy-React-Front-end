@@ -2,14 +2,34 @@
     width: 200px;
     height: 200px;
     border: 1px solid;
+    border-radius: 50px;
 }
 .song_cover_img {
     width: 200px;
     height: 200px;
+    border-radius: 50px;
+    
 }
 .music-list {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: center;
     flex-wrap: wrap;
     gap: 20px;
+}
+.single-song{
+    width: 200px;
+    border: 1px solid;
+    border-radius: 0px;
+    text-align: center;
+}
+.music-list::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, #f0f, #0ff);
+  box-shadow: 0 0 10px #f0f, 0 0 20px #0ff;
 }

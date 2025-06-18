@@ -141,6 +141,11 @@ export async function addSongToPlaylist(playlistId, songId) {
   }
 }
 
+export const searchSongs = async (query) => {
+  const response = await axios.get(`${BASE_URL}/music/?search=${query}`)
+  return response.data
+}
+
 export async function removeSong(playlistId, songId) {
   try {
     const token = getToken()

@@ -62,7 +62,7 @@ export default function ShowMusic() {
 
     return (
         <>
-            <section className="music-list">
+            <section className="single music">
                 {error
                 ? <p className='error-message'>{error.response?.data || error}</p>
                 : isLoading

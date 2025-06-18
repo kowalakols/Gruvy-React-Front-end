@@ -1,3 +1,6 @@
+.home-body{
+
+}
 .playlist-single-song{
     height: 500px;
     width: 500px;
@@ -7,4 +10,11 @@
 }
 .song-detail{
     display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.playlist-single-song{
+    width: 200px;
+    height: 335px;
+    font-size: medium;
 }

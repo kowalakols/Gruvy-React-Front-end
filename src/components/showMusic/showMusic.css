@@ -25,7 +25,7 @@ border-radius: 10px;
     border: 1px solid;
     border-radius: 50px;
     text-decoration: solid;
-    margin-left: 100px;
+    margin-left: 1000px;
     background-color: white;
 
 }
@@ -55,4 +55,18 @@ border-radius: 10px;
 .lyrics h1{
     font-size: xxx-large;
     margin: 10px;
+}
+.home-page-space{
+    width: 100%;
+    border: 1px solid;
+}
+.single-song{
+    width: 100%;
+    border: 1px solid;
+    border-radius: 50px;
+}
+.singleMusic{
+    width: 100%;
+    border: 1px solid;
+    border-radius: 50px;   
 }

@@ -33,7 +33,12 @@ export default function Register(){
           navigate('/login')
         }
         catch (error) {
-          setError(error.response.data)
+          const err = error.response?.data
+          if (err) {
+            setError(err)
+          } else {
+            setError({non_field_errors: ['Something went wrong.']})
+          }
         }
         finally {
           setIsLoading(false)
@@ -75,7 +80,15 @@ export default function Register(){
             <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Password Confirmation" required onChange={handleChange} value={formData.password_confirmation} />
             { error.password_confirmation && <p className="error-message">{error.password_confirmation}</p>}
           </div>
-  
+
+          {error.non_field_errors && (
+            <div className="error-message">
+              {error.non_field_errors.map((errMsg, index) => (
+                <p key={index}>{errMsg}</p>
+              ))}
+            </div>
+          )}
+
           <button type="submit" className="signup-submit-button">
             { isLoading ? <h1>is loading</h1> : 'Register' }
           </button>

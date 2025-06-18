@@ -60,3 +60,9 @@
 .input-control label {
   font-size: 20px;
 }
+
+.error-message {
+  color: red;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
